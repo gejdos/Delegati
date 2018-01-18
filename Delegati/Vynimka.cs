@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Delegati
 {
-    class Program
+    class StringNotInCorrectFormatException : Exception
     {
-        static void Main(string[] args)
+        public StringNotInCorrectFormatException()
         {
-            ProcessPasswordFile file = new ProcessPasswordFile();
 
-            Console.ReadKey();
         }
     }
 }
