@@ -10,7 +10,10 @@ namespace Delegati
     {
         public StringNotInCorrectFormatException()
         {
+        }
 
+        public StringNotInCorrectFormatException(string message):base(message)
+        {
         }
     }
 }

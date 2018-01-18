@@ -22,18 +22,30 @@ namespace Delegati
             
             foreach (string s in textfile)
             {
-                Console.WriteLine(s);
-                Console.WriteLine(reg.IsMatch(s));
+                //Console.WriteLine(s);
+                try
+                {
+                    Skontroluj(s);
+                }
+                catch (StringNotInCorrectFormatException ex)
+                {
+                    Console.WriteLine(ex.Message.ToString());
+                }
+                
                 Console.WriteLine();
                 //VytvorNovySubor(s.Substring(0, s.IndexOf(" ")), Hash(s.Substring(s.IndexOf(" ") + 1)));
             }
             
         }
 
-        private bool Skontroluj()
+        public static void Skontroluj(string input)
         {
             Regex reg = new Regex(@"^\w+?\s\w+$");
 
+            if (!reg.IsMatch(input))
+            {
+                throw new StringNotInCorrectFormatException("Zaznam nebol v pozadovanom formate.");
+            }
         }
 
         private string Hash(string heslo)
