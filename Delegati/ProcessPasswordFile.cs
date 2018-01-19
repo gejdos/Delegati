@@ -11,6 +11,8 @@ namespace Delegati
 {
     class ProcessPasswordFile
     {
+        string datetime = DateTime.Now.ToString();
+
         public ProcessPasswordFile()
         {
             ReadText();
@@ -18,37 +20,41 @@ namespace Delegati
 
         private void ReadText()
         {
-            string[] textfile = File.ReadAllLines(@"C:\Users\Jakub\source\repos\Delegati\Delegati\textfile.txt");
-            
+            string[] textfile = File.ReadAllLines(@"..\..\textfile.txt");
+
             foreach (string s in textfile)
             {
-                //Console.WriteLine(s);
+                string uzivatel = s.Substring(0, s.IndexOf(" "));
+
                 try
                 {
                     Skontroluj(s);
                 }
-                catch (StringNotInCorrectFormatException ex)
+                catch (TextNotInCorrectFormatException ex)
                 {
-                    Console.WriteLine(ex.Message.ToString());
+                    Console.WriteLine("{0} uzivatel: {1}, '{2}'", datetime, uzivatel, ex.Message.ToString());
+                    File.AppendAllText(@"..\..\log.txt", datetime + " " + uzivatel +
+                        " " + ex.Message.ToString() + Environment.NewLine);
                 }
-                
+
                 Console.WriteLine();
+
                 //VytvorNovySubor(s.Substring(0, s.IndexOf(" ")), Hash(s.Substring(s.IndexOf(" ") + 1)));
             }
             
         }
 
-        public static void Skontroluj(string input)
+        private void Skontroluj(string input)
         {
             Regex reg = new Regex(@"^\w+?\s\w+$");
 
             if (!reg.IsMatch(input))
             {
-                throw new StringNotInCorrectFormatException("Zaznam nebol v pozadovanom formate.");
+                throw new TextNotInCorrectFormatException("Zaznam nebol v pozadovanom formate.");
             }
         }
 
-        private string Hash(string heslo)
+        private void VytvorHash(string heslo)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
 
@@ -58,18 +64,12 @@ namespace Delegati
 
             for (int i = 0; i < hashedPassword.Length; i++)
             {
-                //change it into 2 hexadecimal digits
+                //2 hexadecimal digits
                 //for each byte
                 strBuilder.Append(hashedPassword[i].ToString("x2"));
             }
-
-            return strBuilder.ToString();
+            
         }
-
-        private void VytvorNovySubor(string uzivatel, string hash)
-        {
-            Console.WriteLine(uzivatel + " " + hash);
-        }
-
+        
     }
 }

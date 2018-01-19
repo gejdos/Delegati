@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Delegati
 {
-    class StringNotInCorrectFormatException : Exception
+    class TextNotInCorrectFormatException : Exception
     {
-        public StringNotInCorrectFormatException()
+        public TextNotInCorrectFormatException()
         {
         }
 
-        public StringNotInCorrectFormatException(string message):base(message)
+        public TextNotInCorrectFormatException(string message) : base(message)
         {
         }
     }
